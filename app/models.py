@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone as tz
+from taggit.managers import TaggableManager
 
 class PublishedManager(models.Manager):
 
@@ -13,7 +14,9 @@ class PublishedManager(models.Manager):
 
 
 class Post(models.Model):
-    
+
+    tags = TaggableManager()
+
     class Status(models.TextChoices):
         DRAFT = "DF", "Draft"
         PULBISHED = "PB", "Published"
@@ -49,7 +52,6 @@ class Post(models.Model):
 
     
     def get_absolute_url(self):
-        print(f"Returning absolute url...")
         return reverse(
                 'blog:post_detail',
                 args=[
